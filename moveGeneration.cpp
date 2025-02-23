@@ -7,7 +7,11 @@
 int generateMoves(Board board, Move moves[]) {
     int pawnMoves = generatePawnMoves(board, moves, 0);
     int knightMoves = generateKnightMoves(board, moves, pawnMoves);
-    return knightMoves;
+    int bishopMoves = generateBishopMoves(board, moves, knightMoves);
+    int rookMoves = generateRookMoves(board, moves, bishopMoves);
+    int queenMoves = generateQueenMoves(board, moves, rookMoves);
+    int kingMoves = generateKingMoves(board, moves, queenMoves);
+    return kingMoves;
 }
 
 
@@ -398,6 +402,66 @@ int generateQueenMoves(Board board, Move moves[], int numMoves) {
                     break;
                 }
                 moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
+            }
+        }
+    }
+    return numMoves;
+}
+
+int generateKingMoves(Board board, Move moves[], int numMoves) {
+    int playerIndex = 0 ? board.sideToMove == WHITE : 6;
+    int opponentIndex = 6 ? board.sideToMove == WHITE : 0;
+    uint64_t king = board.bitboards[playerIndex + 5];
+
+    uint64_t playerPieces = 0;
+    for (int i = playerIndex; i < playerIndex + 6; i++) {
+        playerPieces |= board.bitboards[i];
+    }
+    uint64_t opponentPieces = 0;
+    for (int i = opponentIndex; i < opponentIndex + 6; i++) {
+        opponentPieces |= board.bitboards[i];
+    }
+
+    for (int i = 0; i < 64; i++) {
+        if (king & (1ULL << i)) {
+            uint64_t movesBitboard = 0;
+            if (i % 8 < 7) {
+                movesBitboard |= 1ULL << (i + 1);
+            }
+            if (i % 8 > 0) {
+                movesBitboard |= 1ULL << (i - 1);
+            }
+            if (i / 8 < 7) {
+                movesBitboard |= 1ULL << (i + 8);
+            }
+            if (i / 8 > 0) {
+                movesBitboard |= 1ULL << (i - 8);
+            }
+            if (i % 8 < 7 && i / 8 < 7) {
+                movesBitboard |= 1ULL << (i + 9);
+            }
+            if (i % 8 > 0 && i / 8 < 7) {
+                movesBitboard |= 1ULL << (i + 7);
+            }
+            if (i % 8 < 7 && i / 8 > 0) {
+                movesBitboard |= 1ULL << (i - 7);
+            }
+            if (i % 8 > 0 && i / 8 > 0) {
+                movesBitboard |= 1ULL << (i - 9);
+            }
+            movesBitboard &= ~playerPieces;
+            for (int j = 0; j < 64; j++) {
+                if (movesBitboard & (1ULL << j)) {
+                    if (opponentPieces & (1ULL << j)) {
+                        for (int k = 0; k < 6; k++) {
+                            if (board.bitboards[opponentIndex + k] & (1ULL << j)) {
+                                moves[numMoves++] = {i, j, 5, 0, k + 1, 0, 0};
+                            }
+                        }
+                    } else {
+                        moves[numMoves++] = {i, j, 5, 0, 0, 0, 0};
+                    }
+                }
             }
         }
     }
