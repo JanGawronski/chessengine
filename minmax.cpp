@@ -1,10 +1,4 @@
-#include <cstdint>
-#include "Board.h"
-#include "Move.h"
-#include "evaluation.cpp"
-#include "boardManipulation.cpp"
-#include "moveGeneration.cpp"
-
+#include "minmax.h"
 
 int negaMax(Board board, int depth, int alpha, int beta) {
     if (depth == 0) {

@@ -1,5 +1,4 @@
-#include "Board.h"
-#include "Move.h"
+#include "moveGeneration.h"
 #define WHITE 0
 #define BLACK 1
 
