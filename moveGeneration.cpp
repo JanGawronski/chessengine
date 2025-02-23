@@ -270,3 +270,136 @@ int generateRookMoves(Board board, Move moves[], int numMoves) {
     }
     return numMoves;
 }
+
+int generateQueenMoves(Board board, Move moves[], int numMoves) {
+    int playerIndex = 0 ? board.sideToMove == WHITE : 6;
+    int opponentIndex = 6 ? board.sideToMove == WHITE : 0;
+    uint64_t queens = board.bitboards[playerIndex + 4];
+
+    uint64_t playerPieces = 0;
+    for (int i = playerIndex; i < playerIndex + 6; i++) {
+        playerPieces |= board.bitboards[i];
+    }
+    uint64_t opponentPieces = 0;
+    for (int i = opponentIndex; i < opponentIndex + 6; i++) {
+        opponentPieces |= board.bitboards[i];
+    }
+
+    for (int i = 0; i < 64; i++) {
+        if (queens & (1ULL << i)) {
+            for (int j = i + 9; j % 8 != 0 && j / 8 < 8; j += 9) {
+                if (playerPieces & (1ULL << j)) {
+                    break;
+                }
+                if (opponentPieces & (1ULL << j)) {
+                    for (int k = 0; k < 6; k++) {
+                        if (board.bitboards[opponentIndex + k] & (1ULL << j)) {
+                            moves[numMoves++] = {i, j, 4, 0, k + 1, 0, 0};
+                        }
+                    }
+                    break;
+                }
+                moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
+            }
+            for (int j = i + 7; j % 8 != 7 && j / 8 < 8; j += 7) {
+                if (playerPieces & (1ULL << j)) {
+                    break;
+                }
+                if (opponentPieces & (1ULL << j)) {
+                    for (int k = 0; k < 6; k++) {
+                        if (board.bitboards[opponentIndex + k] & (1ULL << j)) {
+                            moves[numMoves++] = {i, j, 4, 0, k + 1, 0, 0};
+                        }
+                    }
+                    break;
+                }
+                moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
+            }
+            for (int j = i - 9; j % 8 != 7 && j / 8 >= 0; j -= 9) {
+                if (playerPieces & (1ULL << j)) {
+                    break;
+                }
+                if (opponentPieces & (1ULL << j)) {
+                    for (int k = 0; k < 6; k++) {
+                        if (board.bitboards[opponentIndex + k] & (1ULL << j)) {
+                            moves[numMoves++] = {i, j, 4, 0, k + 1, 0, 0};
+                        }
+                    }
+                    break;
+                }
+                moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
+            }
+            for (int j = i - 7; j % 8 != 0 && j / 8 >= 0; j -= 7) {
+                if (playerPieces & (1ULL << j)) {
+                    break;
+                }
+                if (opponentPieces & (1ULL << j)) {
+                    for (int k = 0; k < 6; k++) {
+                        if (board.bitboards[opponentIndex + k] & (1ULL << j)) {
+                            moves[numMoves++] = {i, j, 4, 0, k + 1, 0, 0};
+                        }
+                    }
+                    break;
+                }
+                moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
+            }
+            for (int j = i + 8; j / 8 < 8; j += 8) {
+                if (playerPieces & (1ULL << j)) {
+                    break;
+                }
+                if (opponentPieces & (1ULL << j)) {
+                    for (int k = 0; k < 6; k++) {
+                        if (board.bitboards[opponentIndex + k] & (1ULL << j)) {
+                            moves[numMoves++] = {i, j, 4, 0, k + 1, 0, 0};
+                        }
+                    }
+                    break;
+                }
+                moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
+            }
+            for (int j = i - 8; j / 8 >= 0; j -= 8) {
+                if (playerPieces & (1ULL << j)) {
+                    break;
+                }
+                if (opponentPieces & (1ULL << j)) {
+                    for (int k = 0; k < 6; k++) {
+                        if (board.bitboards[opponentIndex + k] & (1ULL << j)) {
+                            moves[numMoves++] = {i, j, 4, 0, k + 1, 0, 0};
+                        }
+                    }
+                    break;
+                }
+                moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
+            }
+            for (int j = i + 1; j % 8 != 0; j++) {
+                if (playerPieces & (1ULL << j)) {
+                    break;
+                }
+                if (opponentPieces & (1ULL << j)) {
+                    for (int k = 0; k < 6; k++) {
+                        if (board.bitboards[opponentIndex + k] & (1ULL << j)) {
+                            moves[numMoves++] = {i, j, 4, 0, k + 1, 0, 0};
+                        }
+                    }
+                    break;
+                }
+                moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
+            }
+            for (int j = i - 1; j % 8 != 7; j--) {
+                if (playerPieces & (1ULL << j)) {
+                    break;
+                }
+                if (opponentPieces & (1ULL << j)) {
+                    for (int k = 0; k < 6; k++) {
+                        if (board.bitboards[opponentIndex + k] & (1ULL << j)) {
+                            moves[numMoves++] = {i, j, 4, 0, k + 1, 0, 0};
+                        }
+                    }
+                    break;
+                }
+                moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
+            }
+        }
+    }
+    return numMoves;
+}
