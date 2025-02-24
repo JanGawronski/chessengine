@@ -15,9 +15,9 @@ int generateMoves(Board board, Move moves[]) {
 
 
 int generatePawnMoves(Board board, Move moves[], int numMoves) {
-    int playerIndex = 0 ? board.sideToMove == WHITE : 6;
-    int opponentIndex = 6 ? board.sideToMove == WHITE : 0;
-    int pawnMove = 8 ? board.sideToMove == WHITE : -8;
+    int playerIndex = board.sideToMove == WHITE ? 0 : 6;
+    int opponentIndex = board.sideToMove == WHITE ? 6 : 0;
+    int pawnMove = board.sideToMove == WHITE ? 8 : -8;
     uint64_t pawns = board.bitboards[playerIndex];
 
     uint64_t playerPiecesBitboard = 0;
@@ -42,8 +42,8 @@ int generatePawnMoves(Board board, Move moves[], int numMoves) {
 
     // Pawn double moves
 
-    int firstRankStart = 8 ? board.sideToMove == WHITE : 48;
-    int firstRankStartEnd = 15 ? board.sideToMove == WHITE : 55;
+    int firstRankStart = board.sideToMove == WHITE ? 8 : 48;
+    int firstRankStartEnd = board.sideToMove == WHITE ? 15 : 55;
     
     for (int i = firstRankStart; i <= firstRankStartEnd; i++) {
         if (pawns & (1ULL << i)) {
@@ -55,8 +55,8 @@ int generatePawnMoves(Board board, Move moves[], int numMoves) {
 
     // Promotion moves
 
-    int lastRankStart = 48 ? board.sideToMove == WHITE : 8;
-    int lastRankEnd = 55 ? board.sideToMove == WHITE : 15;
+    int lastRankStart = board.sideToMove == WHITE ? 48 : 8;
+    int lastRankEnd = board.sideToMove == WHITE ? 55 : 15;
 
     for (int i = lastRankStart; i <= lastRankEnd; i++) {
         if (pawns & (1ULL << i)) {
@@ -73,8 +73,8 @@ int generatePawnMoves(Board board, Move moves[], int numMoves) {
 }
 
 int generateKnightMoves(Board board, Move moves[], int numMoves) {
-    int playerIndex = 0 ? board.sideToMove == WHITE : 6;
-    int opponentIndex = 6 ? board.sideToMove == WHITE : 0;
+    int playerIndex = board.sideToMove == WHITE ? 0 : 6;
+    int opponentIndex = board.sideToMove == WHITE ? 6 : 0;
     uint64_t knights = board.bitboards[playerIndex + 1];
 
     uint64_t playerPieces = 0;
@@ -121,8 +121,8 @@ int generateKnightMoves(Board board, Move moves[], int numMoves) {
 }
 
 int generateBishopMoves(Board board, Move moves[], int numMoves) {
-    int playerIndex = 0 ? board.sideToMove == WHITE : 6;
-    int opponentIndex = 6 ? board.sideToMove == WHITE : 0;
+    int playerIndex = board.sideToMove == WHITE ? 0 : 6;
+    int opponentIndex = board.sideToMove == WHITE ? 6 : 0;
     uint64_t bishops = board.bitboards[playerIndex + 2];
 
     uint64_t playerPieces = 0;
@@ -198,8 +198,8 @@ int generateBishopMoves(Board board, Move moves[], int numMoves) {
 }
 
 int generateRookMoves(Board board, Move moves[], int numMoves) {
-    int playerIndex = 0 ? board.sideToMove == WHITE : 6;
-    int opponentIndex = 6 ? board.sideToMove == WHITE : 0;
+    int playerIndex = board.sideToMove == WHITE ? 0 : 6;
+    int opponentIndex = board.sideToMove == WHITE ? 6 : 0;
     uint64_t rooks = board.bitboards[playerIndex + 3];
 
     uint64_t playerPieces = 0;
@@ -228,7 +228,7 @@ int generateRookMoves(Board board, Move moves[], int numMoves) {
                 moves[numMoves++] = {i, j, 3, 0, 0, 0, 0};
             }
             for (int j = i - 8; j / 8 >= 0; j -= 8) {
-                if (playerPieces & (1ULL << j)) {
+                if (playerPieces & (1ULL << j) || j < 0) {
                     break;
                 }
                 if (opponentPieces & (1ULL << j)) {
@@ -256,7 +256,7 @@ int generateRookMoves(Board board, Move moves[], int numMoves) {
                 moves[numMoves++] = {i, j, 3, 0, 0, 0, 0};
             }
             for (int j = i - 1; j % 8 != 7; j--) {
-                if (playerPieces & (1ULL << j)) {
+                if (playerPieces & (1ULL << j) || j < 0) {
                     break;
                 }
                 if (opponentPieces & (1ULL << j)) {
@@ -275,8 +275,8 @@ int generateRookMoves(Board board, Move moves[], int numMoves) {
 }
 
 int generateQueenMoves(Board board, Move moves[], int numMoves) {
-    int playerIndex = 0 ? board.sideToMove == WHITE : 6;
-    int opponentIndex = 6 ? board.sideToMove == WHITE : 0;
+    int playerIndex = board.sideToMove == WHITE ? 0 : 6;
+    int opponentIndex = board.sideToMove == WHITE ? 6 : 0;
     uint64_t queens = board.bitboards[playerIndex + 4];
 
     uint64_t playerPieces = 0;
@@ -408,8 +408,8 @@ int generateQueenMoves(Board board, Move moves[], int numMoves) {
 }
 
 int generateKingMoves(Board board, Move moves[], int numMoves) {
-    int playerIndex = 0 ? board.sideToMove == WHITE : 6;
-    int opponentIndex = 6 ? board.sideToMove == WHITE : 0;
+    int playerIndex = board.sideToMove == WHITE ? 0 : 6;
+    int opponentIndex = board.sideToMove == WHITE ? 6 : 0;
     uint64_t king = board.bitboards[playerIndex + 5];
 
     uint64_t playerPieces = 0;

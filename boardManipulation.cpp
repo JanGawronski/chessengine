@@ -4,8 +4,8 @@
 #define BLACK 1
 
 Board makeMove(Board board, Move move) {
-    int playerIndex = 0 ? board.sideToMove == WHITE : 6;
-    int opponentIndex = 6 ? board.sideToMove == BLACK : 0;
+    int playerIndex = board.sideToMove == WHITE ? 0 : 6;
+    int opponentIndex = board.sideToMove == WHITE ? 6 : 0;
     Board newBoard = board;
 
     // Update bitboards

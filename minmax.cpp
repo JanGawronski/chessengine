@@ -2,7 +2,7 @@
 
 int negaMax(Board board, int depth, int alpha, int beta) {
     if (depth == 0) {
-        return evaluate(board);
+        return board.sideToMove == 0 ? evaluate(board) : -evaluate(board);
     }
 
     Move moves[256];
