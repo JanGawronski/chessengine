@@ -3,10 +3,10 @@
 
 int evaluate(Board board) {
     if (board.bitboards[11] == 0) {
-        return 1000000;
+        return 10000;
     }
     if (board.bitboards[5] == 0) {
-        return -1000000;
+        return -10000;
     }
 
     int whitePawns = __builtin_popcountll(board.bitboards[0]);
