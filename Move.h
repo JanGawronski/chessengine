@@ -13,7 +13,7 @@ struct Move {
     int castling; // 0: none, 1: white king side, 2: white queen side, 3: black king side, 4: black queen side
 };
 
-inline std::string getMoveString(Move move)
+inline std::string toString(Move move)
 {
     std::string str = "";
     str += "NBRQK"[move.piece - 1];
