@@ -74,3 +74,23 @@ int getEvaluation(Board board, time_t timeToSearch) {
 
     return score;
 }
+
+Move getBestMove(Board board) {
+    Move bestMove;
+    
+    int bestScore = -1000000;
+    Move moves[256];
+    int numMoves = generateMoves(board, moves);
+    for (int i = 0; i < numMoves; i++) {
+        Board newBoard = makeMove(board, moves[i]);
+
+        int score = probeEntry(newBoard.zobristKey).score;
+
+        if (score > bestScore) {
+            bestScore = score;
+            bestMove = moves[i];
+        }
+    }
+
+    return bestMove;
+}
