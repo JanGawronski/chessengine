@@ -1,5 +1,7 @@
 #include "minmax.h"
 
+#define CHECKMATE 10000
+
 int negaMax(Board board, int depth, int alpha, int beta) {
     if (hasSeenPosition(board.zobristKey)) {
         return 0;
@@ -56,4 +58,19 @@ int negaMax(Board board, int depth, int alpha, int beta) {
 
     return bestScore;
 
+}
+
+int getEvaluation(Board board, time_t timeToSearch) {
+    time_t endTime = time(NULL) + timeToSearch;
+    int depth = 0;
+    int score = 0;
+    while (time(NULL) < endTime) {
+        score = negaMax(board, depth, -1000000, 1000000);
+        if (score >= CHECKMATE || score <= -CHECKMATE) {
+            break;
+        }
+        depth++;
+    }
+
+    return score;
 }

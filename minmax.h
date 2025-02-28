@@ -2,6 +2,7 @@
 #define MINMAX_H
 
 #include <cstdint>
+#include <time.h>
 #include "Board.h"
 #include "Move.h"
 #include "evaluation.h"
@@ -10,5 +11,7 @@
 #include "transpositionTable.h"
 
 int negaMax(Board board, int depth, int alpha, int beta);
+
+int getEvaluation(Board board, time_t timeToSearch);
 
 #endif // "MINMAX_H"

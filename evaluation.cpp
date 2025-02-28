@@ -1,12 +1,14 @@
 #include "evaluation.h"
 #include "moveGeneration.h"
 
+#define CHECKMATE 10000
+
 int evaluate(Board board) {
     if (board.bitboards[11] == 0) {
-        return 10000;
+        return CHECKMATE;
     }
     if (board.bitboards[5] == 0) {
-        return -10000;
+        return -CHECKMATE;
     }
 
     int whitePawns = __builtin_popcountll(board.bitboards[0]);
