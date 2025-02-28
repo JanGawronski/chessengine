@@ -1,7 +1,7 @@
 # Makefile for chess engine project
 
 CXX = g++
-CXXFLAGS = -std=c++23 -Wall -Wextra -O2
+CXXFLAGS = -std=c++23 -Wall -Wextra -O3
 
 # List of source files
 SRCS = main.cpp boardManipulation.cpp evaluation.cpp minmax.cpp moveGeneration.cpp transpositionTable.cpp
