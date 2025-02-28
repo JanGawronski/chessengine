@@ -16,19 +16,21 @@ struct Move {
 inline std::string toString(Move move)
 {
     std::string str = "";
-    str += "NBRQK"[move.piece - 1];
+    str += "PNBRQK"[move.piece];
     str += (char)('a' + move.from % 8);
     str += (char)('1' + move.from / 8);
     if (move.capture)
     {
-        str += "x" + "NBRQK"[move.capture - 2];
+        str += "x";
+        str += "PNBRQK"[move.capture - 1];
     }
 
     str += (char)('a' + move.to % 8);
     str += (char)('1' + move.to / 8);
     if (move.promotion)
     {
-        str += "=" + "NBRQ"[move.promotion];
+        str += "=";
+        str += "NBRQ"[move.promotion - 1];
     }
     return str;
 }
