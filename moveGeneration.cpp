@@ -74,20 +74,26 @@ int generatePawnMoves(Board board, Move moves[], int numMoves) {
     int leftCaptureMove = board.sideToMove == WHITE ? 9 : -7;
     int rightCaptureMove = board.sideToMove == WHITE ? 7 : -9;
 
-    uint64_t leftCaptureBitboard = ((pawns & ~0x8080808080808080ULL) << leftCaptureMove) & opponentPiecesBitboard;
-    uint64_t rightCaptureBitboard = ((pawns & ~0x0101010101010101ULL) << rightCaptureMove) & opponentPiecesBitboard;
+    uint64_t leftCaptureBitboard, rightCaptureBitboard;
+    if (board.sideToMove == WHITE) {
+        leftCaptureBitboard = ((pawns & ~0x8080808080808080ULL) << 9) & opponentPiecesBitboard;
+        rightCaptureBitboard = ((pawns & ~0x0101010101010101ULL) << 7) & opponentPiecesBitboard;
+    } else {
+        leftCaptureBitboard = ((pawns & ~0x8080808080808080ULL) >> 7) & opponentPiecesBitboard;
+        rightCaptureBitboard = ((pawns & ~0x0101010101010101ULL) >> 9) & opponentPiecesBitboard;
+    }
 
     for (int i = 8; i < 56; i++) {
         if (leftCaptureBitboard & (1ULL << i)) {
             for (int j = 0; j < 6; j++) {
-                if (board.bitboards[opponentIndex + j] & (1ULL << (i + leftCaptureMove))) {
+                if (board.bitboards[opponentIndex + j] & (1ULL << i)) {
                     moves[numMoves++] = {i - leftCaptureMove, i, 0, 0, j + 1, 0, 0};
                 }
             }
         }
         if (rightCaptureBitboard & (1ULL << i)) {
             for (int j = 0; j < 6; j++) {
-                if (board.bitboards[opponentIndex + j] & (1ULL << (i + rightCaptureMove))) {
+                if (board.bitboards[opponentIndex + j] & (1ULL << i)) {
                     moves[numMoves++] = {i - rightCaptureMove, i, 0, 0, j + 1, 0, 0};
                 }
             }
@@ -97,21 +103,19 @@ int generatePawnMoves(Board board, Move moves[], int numMoves) {
     for (int i = secondRankStart - pawnMove; i <= secondRankEnd - pawnMove; i++) {
         if (leftCaptureBitboard & (1ULL << i)) {
             for (int j = 0; j < 6; j++) {
-                if (board.bitboards[opponentIndex + j] & (1ULL << (i + leftCaptureMove))) {
-                    moves[numMoves++] = {i - leftCaptureMove, i, 0, 1, j + 1, 0, 0};
-                    moves[numMoves++] = {i - leftCaptureMove, i, 0, 2, j + 1, 0, 0};
-                    moves[numMoves++] = {i - leftCaptureMove, i, 0, 3, j + 1, 0, 0};
-                    moves[numMoves++] = {i - leftCaptureMove, i, 0, 4, j + 1, 0, 0};
+                if (board.bitboards[opponentIndex + j] & (1ULL << i)) {
+                    for (int k = 4; k > 0; k--) {
+                        moves[numMoves++] = {i - leftCaptureMove, i, 0, k, j + 1, 0, 0};
+                    }
                 }
             }
         }
         if (rightCaptureBitboard & (1ULL << i)) {
             for (int j = 0; j < 6; j++) {
-                if (board.bitboards[opponentIndex + j] & (1ULL << (i + rightCaptureMove))) {
-                    moves[numMoves++] = {i - rightCaptureMove, i, 0, 1, j + 1, 0, 0};
-                    moves[numMoves++] = {i - rightCaptureMove, i, 0, 2, j + 1, 0, 0};
-                    moves[numMoves++] = {i - rightCaptureMove, i, 0, 3, j + 1, 0, 0};
-                    moves[numMoves++] = {i - rightCaptureMove, i, 0, 4, j + 1, 0, 0};
+                if (board.bitboards[opponentIndex + j] & (1ULL << i)) {
+                    for (int k = 4; k > 0; k--) {
+                        moves[numMoves++] = {i - rightCaptureMove, i, 0, k, j + 1, 0, 0};
+                    }
                 }
             }
         }
