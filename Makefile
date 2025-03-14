@@ -1,26 +1,16 @@
-# Makefile for chess engine project
-
 CXX = g++
-CXXFLAGS = -std=c++23 -Wall -Wextra -O3
+CXXFLAGS = -std=c++23 -Wall -Wextra -O3 -g
 
-# List of source files
-SRCS = main.cpp boardManipulation.cpp evaluation.cpp minmax.cpp moveGeneration.cpp transpositionTable.cpp
+SRCS = *.cpp
 
-# List of object files
-OBJS = $(SRCS:.cpp=.o)
-
-# Output executable
 TARGET = chessengine
 
 all: $(TARGET)
 
-$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
-
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+$(TARGET):
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRCS)
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(TARGET)
 
 .PHONY: all clean
