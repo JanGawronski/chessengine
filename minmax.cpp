@@ -84,7 +84,7 @@ Move getBestMove(Board board) {
     for (int i = 0; i < numMoves; i++) {
         Board newBoard = makeMove(board, moves[i]);
 
-        int score = probeEntry(newBoard.zobristKey).score;
+        int score = -probeEntry(newBoard.zobristKey).score;
 
         if (score > bestScore) {
             bestScore = score;
