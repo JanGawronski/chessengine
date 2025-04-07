@@ -188,7 +188,7 @@ int generateBishopMoves(Board board, Move moves[], int numMoves) {
 
     for (int i = 0; i < 64; i++) {
         if (bishops & (1ULL << i)) {
-            for (int j = i + 9; j % 8 != 0 && j / 8 < 8; j += 9) {
+            for (int j = i + 9; j % 8 != 0 && j / 8 < 8 && j >= 0 && j < 64; j += 9) {
                 if (playerPieces & (1ULL << j)) {
                     break;
                 }
@@ -202,7 +202,7 @@ int generateBishopMoves(Board board, Move moves[], int numMoves) {
                 }
                 moves[numMoves++] = {i, j, 2, 0, 0, 0, 0};
             }
-            for (int j = i + 7; j % 8 != 7 && j / 8 < 8; j += 7) {
+            for (int j = i + 7; j % 8 != 7 && j / 8 < 8 && j >= 0 && j < 64; j += 7) {
                 if (playerPieces & (1ULL << j)) {
                     break;
                 }
@@ -216,7 +216,7 @@ int generateBishopMoves(Board board, Move moves[], int numMoves) {
                 }
                 moves[numMoves++] = {i, j, 2, 0, 0, 0, 0};
             }
-            for (int j = i - 9; j % 8 != 7 && j / 8 >= 0; j -= 9) {
+            for (int j = i - 9; j % 8 != 7 && j / 8 >= 0 && j >= 0 && j < 64; j -= 9) {
                 if (playerPieces & (1ULL << j)) {
                     break;
                 }
@@ -230,7 +230,7 @@ int generateBishopMoves(Board board, Move moves[], int numMoves) {
                 }
                 moves[numMoves++] = {i, j, 2, 0, 0, 0, 0};
             }
-            for (int j = i - 7; j % 8 != 0 && j / 8 >= 0; j -= 7) {
+            for (int j = i - 7; j % 8 != 0 && j / 8 >= 0 && j >= 0 && j < 64; j -= 7) {
                 if (playerPieces & (1ULL << j)) {
                     break;
                 }
@@ -265,7 +265,7 @@ int generateRookMoves(Board board, Move moves[], int numMoves) {
 
     for (int i = 0; i < 64; i++) {
         if (rooks & (1ULL << i)) {
-            for (int j = i + 8; j / 8 < 8; j += 8) {
+            for (int j = i + 8; j / 8 < 8 && j >= 0 && j < 64; j += 8) {
                 if (playerPieces & (1ULL << j)) {
                     break;
                 }
@@ -279,7 +279,7 @@ int generateRookMoves(Board board, Move moves[], int numMoves) {
                 }
                 moves[numMoves++] = {i, j, 3, 0, 0, 0, 0};
             }
-            for (int j = i - 8; j / 8 >= 0; j -= 8) {
+            for (int j = i - 8; j / 8 >= 0 && j >= 0 && j < 64; j -= 8) {
                 if (playerPieces & (1ULL << j) || j < 0) {
                     break;
                 }
@@ -293,7 +293,7 @@ int generateRookMoves(Board board, Move moves[], int numMoves) {
                 }
                 moves[numMoves++] = {i, j, 3, 0, 0, 0, 0};
             }
-            for (int j = i + 1; j % 8 != 0; j++) {
+            for (int j = i + 1; j % 8 != 0 && j >= 0 && j < 64; j++) {
                 if (playerPieces & (1ULL << j)) {
                     break;
                 }
@@ -307,7 +307,7 @@ int generateRookMoves(Board board, Move moves[], int numMoves) {
                 }
                 moves[numMoves++] = {i, j, 3, 0, 0, 0, 0};
             }
-            for (int j = i - 1; j % 8 != 7; j--) {
+            for (int j = i - 1; j % 8 != 7 && j >= 0 && j < 64; j--) {
                 if (playerPieces & (1ULL << j) || j < 0) {
                     break;
                 }
@@ -342,7 +342,7 @@ int generateQueenMoves(Board board, Move moves[], int numMoves) {
 
     for (int i = 0; i < 64; i++) {
         if (queens & (1ULL << i)) {
-            for (int j = i + 9; j % 8 != 0 && j / 8 < 8; j += 9) {
+            for (int j = i + 9; j % 8 != 0 && j / 8 < 8 && j >= 0 && j < 64; j += 9) {
                 if (playerPieces & (1ULL << j)) {
                     break;
                 }
@@ -356,7 +356,7 @@ int generateQueenMoves(Board board, Move moves[], int numMoves) {
                 }
                 moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
             }
-            for (int j = i + 7; j % 8 != 7 && j / 8 < 8; j += 7) {
+            for (int j = i + 7; j % 8 != 7 && j / 8 < 8 && j >= 0 && j < 64; j += 7) {
                 if (playerPieces & (1ULL << j)) {
                     break;
                 }
@@ -370,7 +370,7 @@ int generateQueenMoves(Board board, Move moves[], int numMoves) {
                 }
                 moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
             }
-            for (int j = i - 9; j % 8 != 7 && j / 8 >= 0; j -= 9) {
+            for (int j = i - 9; j % 8 != 7 && j / 8 >= 0 && j >= 0 && j < 64; j -= 9) {
                 if (playerPieces & (1ULL << j)) {
                     break;
                 }
@@ -384,7 +384,7 @@ int generateQueenMoves(Board board, Move moves[], int numMoves) {
                 }
                 moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
             }
-            for (int j = i - 7; j % 8 != 0 && j / 8 >= 0; j -= 7) {
+            for (int j = i - 7; j % 8 != 0 && j / 8 >= 0 && j >= 0 && j < 64; j -= 7) {
                 if (playerPieces & (1ULL << j)) {
                     break;
                 }
@@ -398,7 +398,7 @@ int generateQueenMoves(Board board, Move moves[], int numMoves) {
                 }
                 moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
             }
-            for (int j = i + 8; j / 8 < 8; j += 8) {
+            for (int j = i + 8; j / 8 < 8 && j >= 0 && j < 64; j += 8) {
                 if (playerPieces & (1ULL << j)) {
                     break;
                 }
@@ -412,7 +412,7 @@ int generateQueenMoves(Board board, Move moves[], int numMoves) {
                 }
                 moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
             }
-            for (int j = i - 8; j / 8 >= 0; j -= 8) {
+            for (int j = i - 8; j / 8 >= 0 && j >= 0 && j < 64; j -= 8) {
                 if (playerPieces & (1ULL << j)) {
                     break;
                 }
@@ -426,7 +426,7 @@ int generateQueenMoves(Board board, Move moves[], int numMoves) {
                 }
                 moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
             }
-            for (int j = i + 1; j % 8 != 0; j++) {
+            for (int j = i + 1; j % 8 != 0 && j >= 0 && j < 64; j++) {
                 if (playerPieces & (1ULL << j)) {
                     break;
                 }
@@ -440,7 +440,7 @@ int generateQueenMoves(Board board, Move moves[], int numMoves) {
                 }
                 moves[numMoves++] = {i, j, 4, 0, 0, 0, 0};
             }
-            for (int j = i - 1; j % 8 != 7; j--) {
+            for (int j = i - 1; j % 8 != 7 && j >= 0 && j < 64; j--) {
                 if (playerPieces & (1ULL << j)) {
                     break;
                 }
