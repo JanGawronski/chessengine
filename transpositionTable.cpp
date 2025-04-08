@@ -1,6 +1,6 @@
 #include "transpositionTable.h"
 
-#define TABLE_SIZE (static_cast<uint64_t>(1) << 20)
+#define TABLE_SIZE (static_cast<uint64_t>(1) << 26)
 
 uint64_t random64() {
     static std::mt19937_64 rng(std::random_device{}());
